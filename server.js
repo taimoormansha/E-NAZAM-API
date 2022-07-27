@@ -34,6 +34,11 @@ const test= require('./models/test')
 //const Fyp = require('./models/Fyp');
 const school =require('./models/School.model')
 
+const studentRoute = require('./routes/student.route.js');
+const classesRoute = require('./routes/class.route.js');
+const teachersRoute = require('./routes/teacher.route.js');
+const expensesRoute = require('./routes/expense.route.js');
+
 AdminBro.registerAdapter(mongooseAdminBro)
 const AdminBroOptions = {
   resources: [{resource: Admin, options: {listProperties:['name' , 'email'] }}, Customer, Teacher, TeacherAttendance ,StudentFeeHistory, StudentAttendance, Student, Shobajaat, Scholarship, Result, Requester, Expendetures, DonationsOffline, Darjaat, Course, school, test],
@@ -73,6 +78,12 @@ const router1 = expressAdminBro.buildRouter(adminBro1)
 app.use(adminBro.options.rootPath, router)
 app.use(adminBro1.options.rootPath, router1)
 
-app.listen(8001, ()=>console.log('Listening at Port 8000'));
+
+app.use('/api/students', studentRoute);
+app.use('/api/classes', classesRoute);
+app.use('/api/teachers', teachersRoute);
+app.use('/api/expenses', expensesRoute);
+
+app.listen(8001, ()=>console.log('Listening at Port 8001'));
 
 

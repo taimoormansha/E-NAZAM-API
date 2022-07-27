@@ -1,6 +1,4 @@
-
 const mongoose = require('mongoose'); 
-
 
 // Declare Student Schema of the Mongo model
 var studentSchema = new mongoose.Schema({
@@ -17,6 +15,12 @@ var studentSchema = new mongoose.Schema({
     },
 
     fatherName:{ 
+        type: String,
+        trim: true,
+        required: true,                
+    },
+
+    guardianName:{ 
         type: String,
         trim: true,
         required: true,                
