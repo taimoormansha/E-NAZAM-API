@@ -1,23 +1,18 @@
-
 var mongoose = require('mongoose');
-var expendeturesSchema = new mongoose.Schema({
-        
-    date: {  
-        type: Date, 
-        default: Date.now 
-    },
 
+var expendeturesSchema = new mongoose.Schema({
+  
     title: {
         type: String,
         required:true,
         trim: true,
     },
     
-    price: { 
+    totalPrice: { 
         type: Number,
         required:true,        
     },
-
+   
     details: 
     { 
         type: String,            
@@ -25,12 +20,20 @@ var expendeturesSchema = new mongoose.Schema({
         trim: true,
     },  
     
-    notedByID:{ //who is going to note expenses?
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Teacher',        
-    },        
-});
+    byTeacherID:{
+        type:Number,
+        required:false,  
+        default:00     
+    },
+    byName:{
+        type:String,
+        required:false,      
+        trim:true,
+        default:''
+    },      
+},
+{ timestamps: true }
+);
 
 module.exports = mongoose.model('Expendeture', expendeturesSchema);
   

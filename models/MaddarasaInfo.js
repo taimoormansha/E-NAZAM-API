@@ -1,29 +1,33 @@
 const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
-var donationSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
-        unique:false,
-        trim: true,
+        unique:true,        
     },
     email:{
         type:String,
         required:true,
-        unique:false,
-        trim: true,
+        unique:true,
     },
     mobile:{
         type:String,
-        trim: true,
+        required:true,
+        unique:true,
     },
-    password:{
+    Address:{
         type:String,
-        trim: true,
         required:true,
     },
-});
+    Logo: {
+        type: String,
+        default: "",
+    },   
+},
+{ timestamps: true }
+);
 
 //Export the model
-module.exports = mongoose.model('Donation', donationSchema);
+module.exports = mongoose.model('MaddarasaInfo', userSchema);
