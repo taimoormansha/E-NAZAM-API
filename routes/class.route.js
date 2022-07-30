@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllClasses } = require('../controllers/class.controller.js');
+const { getAll, getOne } = require("../controllers/class.controller");
 
-// ROUTE 1: Fetch all classes using: GET "api/classes/fetchallclasses".
-router.get('/fetchAllClasses', getAllClasses);
+// ROUTE 1: Fetch all classes using: GET "api/classes/getAll".
+router.get("/", getAll);
+
+// ROUTE 2: Fetch class by id using: GET "api/classes/id/:id".
+router.get("/id/:id", getOne);
 
 module.exports = router;

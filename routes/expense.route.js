@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllExpenses } = require('../controllers/expense.controller.js');
+const { getAll, getOne } = require("../controllers/expense.controller");
 
-// ROUTE 1: Fetch all expenses using: GET "api/expenses/fetchallexpenses".
-router.get('/fetchAllExpenses', getAllExpenses);
+// ROUTE 1: Fetch all expenses using: GET "api/expenses/getAll".
+router.get("/", getAll);
+
+// ROUTE 2: Fetch expense by id using: GET "api/expenses/id/:id".
+router.get("/id/:id", getOne);
+
 
 module.exports = router;

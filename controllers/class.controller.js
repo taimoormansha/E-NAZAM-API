@@ -1,6 +1,6 @@
 const Class = require("../models/darjaat.model");
 
-const getAllClasses = async (req, res) => {
+const getAll = async (req, res) => {
   try {
     const classes = await Class.find();
     res.json(classes);
@@ -10,4 +10,14 @@ const getAllClasses = async (req, res) => {
   }
 };
 
-module.exports = { getAllClasses };
+const getOne = async (req, res) => {
+  try {
+    const _class = await Class.find({'_id' : req.params.id});
+    res.json(_class);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
+module.exports = { getAll, getOne };

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
+const dayjs = require('dayjs');
 
 // Declare the Schema of the Mongo model
 var StudentFeeHistorySchema = new mongoose.Schema({
@@ -15,6 +16,12 @@ var StudentFeeHistorySchema = new mongoose.Schema({
     remainingFee: { 
         type: Number,        
         default:0,       
+    },
+
+    feeMonth: {
+        type: String,
+        default: dayjs().format('M-YYYY'),
+        required: [true, 'Please Enter Fee Month'],
     },
 
     submissionDate: {
