@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 var cors = require('cors')              //used to solve api call problem with axios in react
 
 //ALL Routes
+const User = require('./routes/user.route');
 const MaddarasaInfo = require('./routes/MaddarasaInfo');           //Maddarasa
 const Student = require('./routes/Student');                       //Student
 const StudentAttendance = require('./routes/StudentAttendance');
@@ -33,6 +34,7 @@ connection.on('error',(err)=>console.log('Error', err));
 app.use(cors()) // Use this after the variable declaration
 
 //Routes path set
+app.use("/auth", User);
 app.use("/student", Student);
 app.use("/teacher", Teacher);
 app.use("/teacherAttendance", TeacherAttandance);
