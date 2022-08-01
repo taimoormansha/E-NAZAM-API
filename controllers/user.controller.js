@@ -3,9 +3,10 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const app = require("../config/firebaseConfig");
-const firebase = require("firebase");
+const { auth } = require("firebase");
+require("dotenv").config();
 
-const JWT_SECRET = "$3R3TK3Y";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const getUserByEmail = async (req, res) => {
   // If there are errors, return Bad request and the errors
@@ -17,11 +18,10 @@ const getUserByEmail = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      // SEND USER ROLE (SuperAdmin/Admin) AND isApproved
       res.json({
         exists: true,
         role: user?.role,
-        isApproved: user?.isApproved
+        isApproved: user?.isApproved,
       });
     } else {
       // SEND EMAIL TO VERIFY
@@ -38,8 +38,7 @@ const getUserByEmail = async (req, res) => {
         handleCodeInApp: true,
       };
 
-      firebase
-        .auth()
+      auth()
         .sendSignInLinkToEmail(req.body.email, actionCodeSettings)
         .then(function () {
           res.json({
@@ -80,6 +79,7 @@ const createUser = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: secPass,
+      isApproved: false,
     });
 
     const data = {
@@ -121,16 +121,18 @@ const loginUser = async (req, res) => {
         id: user.id,
       },
     };
-
+    const userWithoutPassword = await User.findById(user.id).select(
+      "-password"
+    );
     const authToken = jwt.sign(data, JWT_SECRET);
-    return res.json({ authToken });
+    return res.json({ user: userWithoutPassword, authToken });
   } catch (error) {
     console.error(error.message);
     return res.status(500).send("Internal Server Error");
   }
 };
 
-const getUser = async (req, res) => {
+const getUserById = async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await User.findById(userId).select("-password");
@@ -141,4 +143,37 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { getUserByEmail, createUser, loginUser, getUser };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({ role: 'Admin'}).select("-password");
+    res.send(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
+const approveUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const isApproved = true;
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: { isApproved } },
+      { new: true }
+    );
+    res.send(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
+module.exports = {
+  getUserByEmail,
+  createUser,
+  loginUser,
+  getUserById,
+  getAllUsers,
+  approveUserById,
+};
