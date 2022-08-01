@@ -26,7 +26,7 @@ const getUserByEmail = async (req, res) => {
     } else {
       // SEND EMAIL TO VERIFY
       var actionCodeSettings = {
-        url: `http://localhost:3000/auth/signin?email=${req.body.email}`,
+        url: `http://localhost:3000/auth/signup?email=${req.body.email}`,
         // iOS: {
         //   bundleId: "com.example.ios",
         // },
@@ -108,12 +108,12 @@ const loginUser = async (req, res) => {
     // Check if the user with same email exists already
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Please input correct details." });
+      return res.status(400).json({ error: "Invalid details." });
     }
 
-    const passwordCompare = bcrypt.compare(password, user.password);
+    const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({ error: "Please input correct details." });
+      return res.status(400).json({ error: "Invalid details." });
     }
 
     const data = {
