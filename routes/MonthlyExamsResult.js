@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Student = require("../models/Student");
 const MonthlyResults = require("../models/MonthlyExamsResults");
 
 //CREATE MonthlyResults
@@ -49,6 +50,18 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(singleMonthlyResults);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+//GET MonthlyResults by Student Id
+router.get("/student/:id", async (req, res) => {
+  try {
+    const student = await Student.findOne({ _id: req.params.id });
+    const result = await MonthlyResults.find({ rollNo: student.rollno });
+    res.json(result);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
   }
 });
 

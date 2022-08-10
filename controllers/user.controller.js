@@ -103,6 +103,8 @@ const loginUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
+  // TODO: HARDCODE SUPERADMIN DATA
+  // TODO: CHECK IF EMAIL AND PASSWORD IS SUPER ADMIN
   const { email, password } = req.body;
   try {
     // Check if the user with same email exists already
@@ -156,7 +158,7 @@ const getAllUsers = async (req, res) => {
 const approveUserById = async (req, res) => {
   try {
     const userId = req.params.id;
-    const isApproved = true;
+    const isApproved = !req.body.isApproved;
     const user = await User.findByIdAndUpdate(
       userId,
       { $set: { isApproved } },

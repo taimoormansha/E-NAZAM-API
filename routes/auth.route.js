@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
+const fetchuser = require("../middleware/fetchuser");
 const {
   getUserByEmail,
   createUser,
   loginUser,
   getUserById,
 } = require("../controllers/user.controller");
-// const fetchuser = require("../middleware/fetchuser");
 
 // ROUTE 1: Return boolean value about user existence using: POST "auth/user". No Login Required
 router.post(
@@ -41,7 +41,7 @@ router.post(
   loginUser
 );
 
-// ROUTE 4: Get logged in user details: POST "auth/getuser". Login Required
-router.post("/getuser", getUserById);
+// ROUTE 4: Get logged in user details: POST "auth/user". Login Required
+router.get("/user", fetchuser, getUserById);
 
 module.exports = router;
