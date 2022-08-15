@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
 const MonthlyResults = require("../models/MonthlyExamsResults");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE MonthlyResults
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newMonthlyResults = new MonthlyResults(req.body);
   try {
@@ -15,7 +16,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE MonthlyResults
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedMonthlyResults = await MonthlyResults.findByIdAndUpdate(
           req.params.id,
@@ -31,7 +32,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE MonthlyResults
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempMonthlyResults = await MonthlyResults.findById(req.params.id);   
       try {
@@ -44,7 +45,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET MonthlyResults
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleMonthlyResults = await MonthlyResults.findById(req.params.id);
     res.status(200).json(singleMonthlyResults);
@@ -54,7 +55,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET MonthlyResults by Student Id
-router.get("/student/:id", async (req, res) => {
+router.get("/student/:id", fetchuser, async (req, res) => {
   try {
     const student = await Student.findOne({ _id: req.params.id });
     const result = await MonthlyResults.find({ rollNo: student.rollno });
@@ -66,7 +67,7 @@ router.get("/student/:id", async (req, res) => {
 });
 
 //GET All MonthlyResults
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
     const query = req.query;
     try {
       const MonthlyResultsList = await MonthlyResults.find(query);

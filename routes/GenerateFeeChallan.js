@@ -3,9 +3,10 @@ const FeeHistory = require("../models/FeeHistory");
 const Student = require("../models/Student")
 const Shobajaat = require('../models/Shobajaat');
 const Scholarship = require('../models/Scholarship');
+const fetchuser = require("../middleware/fetchuser");
 
 //Auto Generate Challans
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
     var yy = new Date().toISOString().split('-')[0], mm = new Date().toISOString().split('-')[1];
     var startingMonth = yy + "-" + mm + "-01T00:00:00.001Z";
     var endingMonth = yy + "-" + mm + "-" + new Date(yy, mm, 0).getDate().toString() + "T23:59:59.999Z"; //Month Range

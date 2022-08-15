@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Requesters = require("../models/Requesters");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Requesters
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newRequesters = new Requesters(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Requesters
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedRequesters = await Requesters.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Requesters
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const requesters = await Requesters.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Request by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const requesters = await Requesters.findById(req.params.id);
     res.status(200).json(requesters);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Requests + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
     try {
       const requesters = await Requesters.find(query);

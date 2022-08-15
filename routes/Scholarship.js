@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Scholarship = require("../models/Scholarship");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Scholarship
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newScholarship = new Scholarship(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Scholarship
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedScholarship = await Scholarship.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Scholarship
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempScholarship = await Scholarship.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Scholarship
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleScholarship = await Scholarship.findById(req.params.id);
     res.status(200).json(singleScholarship);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Scholarship + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
     try {
       const ScholarshipList = await Scholarship.find(query);

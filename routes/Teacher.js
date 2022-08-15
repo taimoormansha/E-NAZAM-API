@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Teacher = require("../models/Teacher");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Teacher
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newTeacher = new Teacher(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Teacher
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedTeacher = await Teacher.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Teacher
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempTeacher = await Teacher.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Teacher
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleTeacher = await Teacher.findById(req.params.id);
     res.status(200).json(singleTeacher);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Teacher + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
     try {
       const TeacherList = await Teacher.find(query);

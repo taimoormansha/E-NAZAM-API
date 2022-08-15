@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Courses = require("../models/Courses");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Course
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newCourses = new Courses(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Courses
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedCourses = await Courses.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Courses
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempCourses = await Courses.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Courses
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleCourses = await Courses.findById(req.params.id);
     res.status(200).json(singleCourses);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Courses + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
    const query = req.query;
     try {
       const CoursesList = await Courses.find(query );

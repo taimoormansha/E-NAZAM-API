@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const MaddarasaInfo = require("../models/MaddarasaInfo");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE MaddarasaInfo
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newMaddarasaInfo = new MaddarasaInfo(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE MaddarasaInfo
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedMaddarasaInfo = await MaddarasaInfo.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE MaddarasaInfo
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempMaddarasaInfo = await MaddarasaInfo.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET MaddarasaInfo
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleMaddarasaInfo = await MaddarasaInfo.findById(req.params.id);
     res.status(200).json(singleMaddarasaInfo);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All MaddarasaInfo + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
     const query = req.query;
     try {
       const MaddarasaInfoList = await MaddarasaInfo.find(query);

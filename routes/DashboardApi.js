@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const fetchuser = require("../middleware/fetchuser");
 
 //ALL Routes
 const MaddarasaInfo = require('../models/MaddarasaInfo');           //Maddarasa
@@ -19,7 +20,7 @@ const Requesters = require('../models/Requesters');
 const Expendetures = require('../models/Expendetures');
 
 
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
     var dashboard = [];
     var data, temp, temp1 = [], Sum = 0;
     var yy = new Date().toISOString().split('-')[0], mm = new Date().toISOString().split('-')[1];

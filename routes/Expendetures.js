@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Expendetures = require("../models/Expendetures");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Expendetures
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newExpendetures = new Expendetures(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Expendetures
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedExpendetures = await Expendetures.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Expendetures
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const expendetures = await Expendetures.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Expendetures
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const expendetures = await Expendetures.findById(req.params.id);
     res.status(200).json(expendetures);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Expendetures + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
    const query = req.query;
     try {
       const expendetures = await Expendetures.find(query);

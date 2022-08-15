@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Shoba = require("../models/Shobajaat");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Shobajaat
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newShoba = new Shoba(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Shoba
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedShoba = await Shoba.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Shoba
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const shoba = await Shoba.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Shoba
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const shoba = await Shoba.findById(req.params.id);
     res.status(200).json(shoba);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Shobajaat + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
     try {
       const shoba = await Shoba.find(query);

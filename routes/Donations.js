@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Donations = require("../models/Donations");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Donationsjaat
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newDonations = new Donations(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Donations
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedDonations = await Donations.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Donations
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const donations = await Donations.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET Donations
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const donations = await Donations.findById(req.params.id);
     res.status(200).json(donations);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Donations + query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
    const query = req.query;
     try {
       const donations = await Donations.find(query);

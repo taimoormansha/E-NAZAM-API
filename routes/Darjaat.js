@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Darjaat = require("../models/Darjaat");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Darjaat
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
   const newDarjaat = new Darjaat(req.body);
   try {
     const savedDarjaat = await newDarjaat.save();
@@ -13,7 +14,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE Darjaat
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedDarjaat = await Darjaat.findByIdAndUpdate(
           req.params.id,
@@ -29,7 +30,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE Darjaat
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const Darjaat = await Darjaat.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 
 
 //GET Darjaat
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const darjaat = await Darjaat.findById(req.params.id);
     res.status(200).json(darjaat);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All Darjaat + query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
     const query = req.query;
     try {
       const darjaat = await Darjaat.find(query);

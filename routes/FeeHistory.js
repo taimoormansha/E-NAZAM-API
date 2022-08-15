@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const Student = require("../models/Student");
 const FeeHistory = require("../models/FeeHistory");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE FeeHistory
-// router.post("/", async (req, res) => {
+// router.post("/", fetchuser, async (req, res) => {
 
 //   const newFeeHistory = new FeeHistory(req.body);
 //   try {
@@ -15,7 +16,7 @@ const FeeHistory = require("../models/FeeHistory");
 // });
 
 // Create Fee History
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
   try {
     const fee = await FeeHistory.create(req.body);
     const savedFee = await fee.save();
@@ -28,7 +29,7 @@ router.post("/", async (req, res) => {
 
 
 //UPDATE FeeHistory
-router.put("/:id", async (req, res) => {
+router.put("/:id", fetchuser, async (req, res) => {
   try {
     const updatedFeeHistory = await FeeHistory.findByIdAndUpdate(
       req.params.id,
@@ -44,7 +45,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE FeeHistory
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
   const tempFeeHistory = await FeeHistory.findById(req.params.id);
   try {
     await tempFeeHistory.delete();
@@ -55,7 +56,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET FeeHistory
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleFeeHistory = await FeeHistory.findById(req.params.id);
     res.status(200).json(singleFeeHistory);
@@ -65,7 +66,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET FeeHistory by Student Id
-router.get("/student/:id", async (req, res) => {
+router.get("/student/:id", fetchuser, async (req, res) => {
   try {
     const student = await Student.findOne({ _id: req.params.id });
     const feeHistory = await FeeHistory.find({ rollNo: student.rollno });
@@ -77,7 +78,7 @@ router.get("/student/:id", async (req, res) => {
 });
 
 //GET All FeeHistory + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
   try {
     const FeeHistoryList = await FeeHistory.find(query);

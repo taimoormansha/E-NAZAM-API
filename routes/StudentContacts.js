@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const StudentContacts = require("../models/StudentContacts");
+const fetchuser = require("../middleware/fetchuser");
 
 //CREATE StudentContacts
-router.post("/", async (req, res) => {
+router.post("/", fetchuser, async (req, res) => {
 
   const newStudentContacts = new StudentContacts(req.body);
   try {
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE StudentContacts
-router.put("/:id", async (req, res) => {      
+router.put("/:id", fetchuser, async (req, res) => {      
       try {
         const updatedStudentContacts = await StudentContacts.findByIdAndUpdate(
           req.params.id,
@@ -30,7 +31,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE StudentContacts
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", fetchuser, async (req, res) => {
 
     const tempStudentContacts = await StudentContacts.findById(req.params.id);   
       try {
@@ -43,7 +44,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET StudentContacts
-router.get("/:id", async (req, res) => {
+router.get("/:id", fetchuser, async (req, res) => {
   try {
     const singleStudentContacts = await StudentContacts.findById(req.params.id);
     res.status(200).json(singleStudentContacts);
@@ -53,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET All StudentContacts + Query
-router.get("/", async (req, res) => {
+router.get("/", fetchuser, async (req, res) => {
   const query = req.query;
     try {
       const StudentContactsList = await StudentContacts.find(query);
