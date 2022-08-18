@@ -147,7 +147,7 @@ const getUserById = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({ role: 'Admin'}).select("-password");
+    const users = await User.find({ role: "Admin" }).select("-password");
     res.send(users);
   } catch (error) {
     console.error(error.message);
@@ -171,6 +171,40 @@ const approveUserById = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const oldUser = await User.findById(userId).select("name password");
+    const { name, password } = req.body;
+    const updatedUser = { name, password };
+    if (!!password) {
+      const salt = await bcrypt.genSalt(10);
+      const securePass = await bcrypt.hash(password, salt);
+      updatedUser["password"] = securePass;
+    }
+
+    for (let property in updatedUser) {
+      if (!updatedUser[property]) {
+        updatedUser[property] = oldUser[property];
+      }
+    }
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          name: updatedUser.name,
+          password: updatedUser.password,
+        },
+      },
+      { new: true }
+    );
+    res.send({ success: true });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
 module.exports = {
   getUserByEmail,
   createUser,
@@ -178,4 +212,5 @@ module.exports = {
   getUserById,
   getAllUsers,
   approveUserById,
+  updateUser,
 };

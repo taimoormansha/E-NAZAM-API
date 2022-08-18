@@ -1,5 +1,9 @@
 const express = require("express");
-const { getAllUsers, approveUserById } = require("../controllers/user.controller");
+const {
+  getAllUsers,
+  approveUserById,
+  updateUser,
+} = require("../controllers/user.controller");
 const fetchuser = require("../middleware/fetchuser");
 
 const router = express.Router();
@@ -9,5 +13,8 @@ router.get("/all", fetchuser, getAllUsers);
 
 // ROUTE 2: Update an existing user details: POST "user/approve/id". Login Required
 router.post("/approve/id/:id", fetchuser, approveUserById);
+
+// ROUTE 3: Update an existing user details: POST "user/id". Login Required
+router.post("/:id", fetchuser, updateUser);
 
 module.exports = router;
