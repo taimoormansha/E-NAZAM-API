@@ -7,6 +7,8 @@ const {
   createUser,
   loginUser,
   getUserById,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/user.controller");
 
 // ROUTE 1: Return boolean value about user existence using: POST "auth/user". No Login Required
@@ -43,5 +45,15 @@ router.post(
 
 // ROUTE 4: Get logged in user details: POST "auth/user". Login Required
 router.get("/user", fetchuser, getUserById);
+
+// ROUTE 5: Send Forgotton Password Mail: POST "auth/forgot-password". No Login Required
+router.post(
+  "/forgot-password",
+  [body("email", "Enter a valid email. Email must include @ sign.").isEmail()],
+  forgotPassword
+);
+
+// ROUTE 5: Reset Password by token: POST "auth/reset-password". No Login Required
+router.post("/reset-password", resetPassword);
 
 module.exports = router;
