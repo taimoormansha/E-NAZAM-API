@@ -317,6 +317,31 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const superAdminId = req.user.id;
+    const user = await User.findById(superAdminId).select("-password");
+    if (user.role === "Super-Admin") {
+      const userId = req.params.id;
+      const deletedUser = await User.findOneAndRemove({
+        _id: userId,
+        role: "Admin",
+      });
+
+      if (deletedUser) {
+        res.json({ success: true, deletedUser: deletedUser._id });
+      } else {
+        res.json({ success: false, msg: "Unable to Delete." });
+      }
+    } else {
+      res.status(403).send("Forbidden Access");
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
 module.exports = {
   getUserByEmail,
   createUser,
@@ -327,4 +352,5 @@ module.exports = {
   updateUser,
   forgotPassword,
   resetPassword,
+  deleteUser,
 };
