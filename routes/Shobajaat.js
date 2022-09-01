@@ -14,6 +14,19 @@ router.post("/", fetchuser, async (req, res) => {
   }
 });
 
+//PATCH Shoba Data
+router.patch("/:id", fetchuser, async (req, res) => {      
+  try {
+      const shoba = await Shoba.findByIdAndUpdate(
+      req.params.id, req.body,     
+      { new: true } //Show updated Record on POSTMAN(API TEST Software) 
+    );
+    res.status(200).json(shoba);
+  } catch (err) {
+    res.status(500).json(err);
+  }   
+});
+
 //UPDATE Shoba
 router.put("/:id", fetchuser, async (req, res) => {      
       try {

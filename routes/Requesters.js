@@ -3,7 +3,7 @@ const Requesters = require("../models/Requesters");
 const fetchuser = require("../middleware/fetchuser");
 
 //CREATE Requesters
-router.post("/", fetchuser, async (req, res) => {
+router.post("/",  async (req, res) => {
 
   const newRequesters = new Requesters(req.body);
   try {

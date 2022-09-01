@@ -32,12 +32,12 @@ var donationSchema = new mongoose.Schema({
     receiptNo:{
         type:Number,
         unique:true,
-        required: true,
+        required: false,
     },    
     address:{
         type:String,
         trim: true,
-        required:true,
+        required:false,
     },
     remarks:{
         type:String,

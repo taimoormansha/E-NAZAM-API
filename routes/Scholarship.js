@@ -30,6 +30,23 @@ router.put("/:id", fetchuser, async (req, res) => {
       }   
 });
 
+  
+//Patch Scholarship
+router.patch("/:id", fetchuser, async (req, res) => {      
+  try {
+    const updatedScholarship = await Scholarship.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true } //Show updated Record on POSTMAN(API TEST Software) 
+    );
+    res.status(200).json(updatedScholarship);
+  } catch (err) {
+    res.status(500).json(err);
+  }   
+});
+
 //DELETE Scholarship
 router.delete("/:id", fetchuser, async (req, res) => {
 

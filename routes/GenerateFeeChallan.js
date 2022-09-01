@@ -12,13 +12,14 @@ router.get("/", fetchuser, async (req, res) => {
     var endingMonth = yy + "-" + mm + "-" + new Date(yy, mm, 0).getDate().toString() + "T23:59:59.999Z"; //Month Range
 
     try {
+       
         const FeeHistoryList = await FeeHistory.findOne({ createdAt: { $gte: startingMonth, $lte: endingMonth } }); //if monthly challan exist        
 
         if (FeeHistoryList === null) {
             var allStudentRecord = await Student.find({ isActive: "student" }); //total active students   
             var newChallan = new FeeHistory();
             var challanlist = [];
-            var temp;
+            var temp;            
 
             for (var i = 0; i < allStudentRecord.length; i++) {
                 newChallan.rollNo = allStudentRecord[i].rollno;
@@ -47,7 +48,7 @@ router.get("/", fetchuser, async (req, res) => {
         }
         else {
             // alert("Already Generated this month( "+ (FeeHistoryList.createdAt.getMonth() + 1) + " ) challans");
-            res.status(200).json("Already Generated this month( " + FeeHistoryList.createdAt.toLocaleString('default', { month: 'long' }) + " ) challans");
+            res.status(200).json("Already Generated this month challans");
         }
 
     } catch (err) {
@@ -55,6 +56,7 @@ router.get("/", fetchuser, async (req, res) => {
     }
 });
 
-router.get
+
+
 
 module.exports = router;

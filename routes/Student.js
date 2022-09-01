@@ -17,17 +17,31 @@ router.post("/", fetchuser, async (req, res) => {
 //UPDATE Student
 router.put("/:id", fetchuser, async (req, res) => {      
       try {
-        const updatedStudent = await Student.findByIdAndUpdate(
+        const student = await Student.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
           },
           { new: true } //Show updated Record on POSTMAN(API TEST Software) 
         );
-        res.status(200).json(updatedStudent);
+        res.status(200).json(student);
       } catch (err) {
         res.status(500).json(err);
       }   
+});
+
+
+//PATCH Student Data
+router.patch("/:id", fetchuser, async (req, res) => {      
+  try {
+      const student = await Student.findByIdAndUpdate(
+      req.params.id, req.body,     
+      { new: true } //Show updated Record on POSTMAN(API TEST Software) 
+    );
+    res.status(200).json(student);
+  } catch (err) {
+    res.status(500).json(err);
+  }   
 });
 
 //DELETE Student

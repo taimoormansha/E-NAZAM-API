@@ -26,6 +26,8 @@ const Donations = require("./routes/Donations"); //Others
 const Requesters = require("./routes/Requesters");
 const Expendetures = require("./routes/Expendetures");
 const GenerateFeeChallans = require("./routes/GenerateFeeChallan");
+const GenerateResults = require("./routes/GenerateResults");
+const resultsMonthly = require("./routes/ResultsMonthly"); //monthly results updated
 
 const DashboardApi = require("./routes/DashboardApi"); //Dashboard Api
 
@@ -56,6 +58,8 @@ app.use("/Scholarship", Scholarship);
 app.use("/MonthlyExamsResult", MonthlyExamsResult);
 app.use("/TerminalExamsResults", TerminalExamsResults);
 app.use("/GenerateFeeChallans", GenerateFeeChallans);
+app.use("/GenerateResults", GenerateResults);
+app.use("/resultsMonthly", resultsMonthly);
 
 app.use("/DashboardApi", DashboardApi);
 

@@ -23,36 +23,24 @@ var teacherSchema = new mongoose.Schema({
         default:'Male',      
     },
 
-    address: {
-        city: {
+    address: {        
             type: String,
             trim: true,
-            required:true,
-        },
-        street: {
-            type: String,
-            trim: true,
-            default:'',
-        },
-        houseNumber: {
-            type: String,
-            trim: true,
-            default:'',
-        }
+            required:true,       
     },
 
-    mobile: [{
+    mobile: {
         type: String,
         required: true,
-        trim: true,
-        unique: true,
-    }],
+        trim: true,  
+        unique: false     
+    },
 
     email: {
         type: String,
         trim: true,
-        required: true,
-        unique: true,
+        required: true,  
+        unique: false     
     },
 
     islamicQualification: {

@@ -27,7 +27,6 @@ router.post("/", fetchuser, async (req, res) => {
   }
 });
 
-
 //UPDATE FeeHistory
 router.put("/:id", fetchuser, async (req, res) => {
   try {
@@ -66,10 +65,39 @@ router.get("/:id", fetchuser, async (req, res) => {
 });
 
 //GET FeeHistory by Student Id
+// router.get("/student/:id", fetchuser, async (req, res) => {
+//   try {
+//     const student = await Student.findOne({ _id: req.params.id });
+//     const feeHistory = await FeeHistory.find({ rollNo: student.rollno });
+//     res.json(feeHistory);
+//   } catch (error) {
+//     console.error(error.message);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// });
+
+//GET Current Month FeeHistory by Student Id
 router.get("/student/:id", fetchuser, async (req, res) => {
   try {
+    const currentDate = new Date();
+    const firstDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    const lastDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
     const student = await Student.findOne({ _id: req.params.id });
-    const feeHistory = await FeeHistory.find({ rollNo: student.rollno });
+    const feeHistory = await FeeHistory.findOne({
+      rollNo: student.rollno,
+      createdAt: {
+        $gte: firstDay,
+        $lt: lastDay,
+      },
+    });
     res.json(feeHistory);
   } catch (error) {
     console.error(error.message);
