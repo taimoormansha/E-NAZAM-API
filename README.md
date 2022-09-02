@@ -1,7 +1,7 @@
-# EnazamAdminbro
+# E-NAZAM Backend
 # Download first this project or
 # Make clone of this project
-git clone https://github.com/taimoormansha/enazamAdminbro.git
+git clone https://github.com/taimoormansha/E-NAZAM-API.git
 
 # Then follow these steps
 1)  npm init -y
