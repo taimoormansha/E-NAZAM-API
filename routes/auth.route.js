@@ -56,4 +56,8 @@ router.post(
 // ROUTE 5: Reset Password by token: POST "auth/reset-password". No Login Required
 router.post("/reset-password", resetPassword);
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> c7ade9ee77876b15c93b62ccebdd1ea360b6e392

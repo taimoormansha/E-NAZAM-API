@@ -353,4 +353,8 @@ module.exports = {
   forgotPassword,
   resetPassword,
   deleteUser,
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> c7ade9ee77876b15c93b62ccebdd1ea360b6e392

@@ -21,4 +21,8 @@ router.post("/:id", fetchuser, updateUser);
 // ROUTE 3: Update an existing user details: POST "user/id/:id". Login Required
 router.delete("/id/:id", fetchuser, deleteUser);
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> c7ade9ee77876b15c93b62ccebdd1ea360b6e392

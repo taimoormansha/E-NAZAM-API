@@ -22,7 +22,11 @@
     "firebase": "^7.24.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.6",
+<<<<<<< HEAD
     "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19"
+=======
+    "nodemailer": "^6.7.8"
+>>>>>>> c7ade9ee77876b15c93b62ccebdd1ea360b6e392
   }
 }
